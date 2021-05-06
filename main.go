@@ -6,7 +6,6 @@ import (
 	"os"
 	"log"
 	// "encoding/csv"
-	"time"
 	"strconv"
 )
 
