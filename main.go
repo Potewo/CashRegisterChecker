@@ -7,6 +7,11 @@ import (
 	"log"
 	// "encoding/csv"
 	"time"
+	"strconv"
+)
+
+var (
+	settings saveData
 )
 
 func main() {
@@ -28,20 +33,35 @@ func save(c echo.Context) error {
 	return c.String(http.StatusOK, "Hello, World")
 }
 
-type savaData struct {
-	date time.Time
-	yen1, yen5, yen10, yen50, yen100, yen500, yen1000, yen5000, yen10000 int
+func init() {
+	cacheTypes := []int {1, 5, 10, 50, 100, 500, 1000, 5000, 10000}
+	for _, cacheType := range cacheTypes {
+		settings.caches = append(settings.caches, cache{50, cacheType, strconv.Itoa(cacheType) + "yen", 0})
+	}
+}
+
+type saveData struct {
+	date string
+	caches []cache
 	sales int
-	rabiesContinuation int
-	rabiesNew int
-	in int
-	out int
-	others int
+	otherServices []otherService
+	unpaid []int
+	in []int
+	out []int
+	others []int
 	diff int
 }
 
-type baseData struct {
-	yen1, yen5, yen10, yen50, yen100, yen500, yen1000, yen5000, yen10000 int
-	rabiesNewCost int
-	rabiesContinuationCost int
+type otherService struct {
+	unitCost int
+	n int
+	isPositive int
+	name string
+}
+
+type cache struct {
+	initialValue int
+	unitCost int
+	name string
+	value int
 }

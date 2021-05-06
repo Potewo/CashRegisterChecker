@@ -7,9 +7,44 @@
 </head>
 <body>
   <div id="app">
-    <div v-for="(inp, index) in inps" :key="index">
-      <label>{{ inp }}円</label>
-      <input v-model="inps[index]" type="number">
+    <div v-for="(cache, index) in saveData.caches">
+      <label>{{ cache.name }}</label>
+      <input v-model.number="cache.value" type=number>
+    </div>
+    <div>
+      <label>売上</label>
+      <input v-model.number="saveData.sales" type=number>
+    </div>
+    <div v-for="(otherService, i) in saveData.otherServices">
+      <label>{{ otherService.name }}</label><span>単価:{{ otherService.unitCost }}</span>
+      <input v-model.number="otherService.n" type=number>
+    </div>
+    <div>
+      <div v-for="(unpaid, i) in saveData.unpaids">
+        <input v-model.number="saveData.unpaids[i]" type=number>
+      </div>
+      <button v-on:click="appendUnpaid">未納を追加</button>
+    </div>
+    <div>
+      <div v-for="(inMoney, i) in saveData.ins">
+        <input v-model.number="saveData.ins[i]" type=number>
+      </div>
+      <button v-on:click="appendIns">入金を追加</button>
+    </div>
+    <div>
+      <div v-for="(outMoney, i) in saveData.outs">
+        <input v-model.number="saveData.outs[i]" type=number>
+      </div>
+      <button v-on:click="appendOuts">出金を追加</button>
+    </div>
+    <div>
+      <div v-for="(otherMoney, i) in saveData.others">
+        <input v-model.number="saveData.others[i]" type=number>
+      </div>
+      <button v-on:click="appendOthers">その他を追加</button>
+    </div>
+    <div>
+      <p>{{ diff }}</p>
     </div>
   </div>
   <script src="main.js"></script>
