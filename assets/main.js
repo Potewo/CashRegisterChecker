@@ -35,6 +35,8 @@ var app = new Vue({
     }
   },
   methods: {
+    moveFocus: function() {
+    },
     appendUnpaid: function() {
       this.saveData.unpaids.push(0)
     },
