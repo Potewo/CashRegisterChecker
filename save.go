@@ -1,25 +1,30 @@
 package main
 
 import (
+	"io/ioutil"
 	"log"
-	"os"
 	// "encoding/csv"
 )
 
 func save() {
-	file, err := os.Create("test.txt")
-	if err != nil {
-		log.Fatal(err)
-	}
-	defer file.Close()
+	// file, err := os.Create("test.txt")
+	// if err != nil {
+	// 	log.Fatal(err)
+	// }
+	// defer file.Close()
 
-	output := "hello from go"
-	file.Write(([]byte)(output))
+	// output := "hello from go"
+	// file.Write(([]byte)(output))
+	
 }
 
 
 func currentFile() string {
-	return ""
+	bytes, err := ioutil.ReadFile("currentFile")
+	if err != nil {
+		log.Fatal(err)
+	}
+	return string(bytes)
 }
 
 func getHeader() []string {
