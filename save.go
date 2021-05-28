@@ -15,9 +15,7 @@ func save() {
 
 	// output := "hello from go"
 	// file.Write(([]byte)(output))
-	
 }
-
 
 func currentFile() string {
 	bytes, err := ioutil.ReadFile("currentFile")
