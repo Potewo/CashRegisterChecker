@@ -1,6 +1,7 @@
 package main
 
 import (
+	"log"
 	"os"
 	// "encoding/csv"
 )
@@ -14,4 +15,17 @@ func save() {
 
 	output := "hello from go"
 	file.Write(([]byte)(output))
+}
+
+
+func currentFile() string {
+	return ""
+}
+
+func getHeader() []string {
+	keys := make([]string, 100)
+	return keys
+}
+
+func appendToFile(string) {
 }
