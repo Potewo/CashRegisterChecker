@@ -3,6 +3,7 @@ package main
 import (
 	"io/ioutil"
 	"log"
+	"strings"
 	// "encoding/csv"
 )
 
@@ -15,6 +16,7 @@ func save() {
 
 	// output := "hello from go"
 	// file.Write(([]byte)(output))
+	// fileName := currentFile()
 }
 
 func currentFile() string {
@@ -22,7 +24,7 @@ func currentFile() string {
 	if err != nil {
 		log.Fatal(err)
 	}
-	return string(bytes)
+	return strings.TrimRight(string(bytes), "\n")
 }
 
 func getHeader() []string {
