@@ -71,3 +71,41 @@ func TestGetHeaderTest(t *testing.T) {
 		t.Fatalf("not same except: %#v but: %#v", exceptValue, headerNames)
 	}
 }
+
+func TestAppendToFile(t *testing.T) {
+	testFileName := "test.csv"
+	expectedValue := "abc\ndef\n"
+	oldString := "abc\n"
+	file, err := os.Create(testFileName)
+	if err != nil {
+		t.Log("failed to create new file for test")
+		t.Fatal(err)
+	}
+	defer func() {
+		file.Close()
+		if err := os.Remove(testFileName); err != nil {
+			t.Log("failed to remove test file")
+			t.Fatal(err)
+		}
+	}()
+	file.WriteString(oldString)
+	err = appendToFile(testFileName, "def")
+	if err != nil {
+		t.Logf("failed to run appendToFile()")
+		t.Fatal(err)
+	}
+	if err = file.Close(); err != nil {
+		t.Log("failed to close file")
+		t.Fatal(err)
+	}
+	file, err = os.Open(testFileName)
+	if err != nil {
+		t.Log("failed to close file")
+		t.Fatal(err)
+	}
+	bytes, err := ioutil.ReadAll(file)
+	t.Logf("output: %#v", string(bytes))
+	if string(bytes) != expectedValue {
+		t.Fatal("not same")
+	}
+}

@@ -38,11 +38,13 @@ func getHeader(fileName string) ([]string, error) {
 	return record, nil
 }
 
-func appendToFile(fileName string, body string) {
+func appendToFile(fileName string, body string) error {
 	file, err := os.OpenFile(fileName, os.O_WRONLY|os.O_APPEND, 0666)
 	if err != nil {
 		log.Fatal(err)
+		return err
 	}
 	defer file.Close()
 	fmt.Fprintln(file, body)
+	return nil
 }
