@@ -7,6 +7,7 @@ import (
 	"io/ioutil"
 	"log"
 	"os"
+	"reflect"
 	"strings"
 )
 
@@ -47,4 +48,15 @@ func appendToFile(fileName string, body string) error {
 	defer file.Close()
 	fmt.Fprintln(file, body)
 	return nil
+}
+
+func checkHeader(fileName string, newHeader []string) (bool, error) {
+	header, err := getHeader(fileName)
+	if err != nil {
+		return false, err
+	}
+	if !reflect.DeepEqual(newHeader, header) {
+		return false, nil
+	}
+	return true, nil
 }

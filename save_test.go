@@ -109,3 +109,22 @@ func TestAppendToFile(t *testing.T) {
 		t.Fatal("not same")
 	}
 }
+
+func TestCheckHeader(t *testing.T) {
+	expectedValue := []string{"a", "b", "c"}
+	file, err := os.Create("test.txt")
+	defer file.Close()
+	if err != nil {
+		t.Fatal("failed to create a new file")
+	}
+	file.WriteString("a,b,c\n1,2,3")
+	file.Close()
+	success, err := checkHeader("test.txt", expectedValue)
+	if !success {
+		t.Fatal("not same")
+	}
+	err = os.Remove("test.txt")
+	if err != nil {
+		t.Fatal(err)
+	}
+}
