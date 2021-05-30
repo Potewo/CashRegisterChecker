@@ -2,6 +2,7 @@ package main
 
 import (
 	"encoding/csv"
+	"encoding/json"
 	"fmt"
 	"io"
 	"io/ioutil"
@@ -59,4 +60,12 @@ func checkHeader(fileName string, newHeader []string) (bool, error) {
 		return false, nil
 	}
 	return true, nil
+}
+
+func convertJsonToMap(jsonStr string) (map[string]interface{}, error) {
+	var mapData map[string]interface{}
+	if err := json.Unmarshal([]byte(jsonStr), &mapData); err != nil {
+		return mapData, err
+	}
+	return mapData, nil
 }
