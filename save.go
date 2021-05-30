@@ -2,6 +2,7 @@ package main
 
 import (
 	"encoding/csv"
+	"fmt"
 	"io"
 	"io/ioutil"
 	"log"
@@ -46,5 +47,11 @@ func getHeader(fileName string) ([]string, error) {
 	return record, nil
 }
 
-func appendToFile(string) {
+func appendToFile(fileName string, body string) {
+	file, err := os.OpenFile(fileName, os.O_WRONLY|os.O_APPEND, 0666)
+	if err != nil {
+		log.Fatal(err)
+	}
+	defer file.Close()
+	fmt.Fprintln(file, body)
 }
