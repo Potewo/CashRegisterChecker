@@ -1,10 +1,12 @@
 package main
 
 import (
+	"encoding/csv"
+	"io"
 	"io/ioutil"
 	"log"
+	"os"
 	"strings"
-	// "encoding/csv"
 )
 
 func save() {
@@ -27,9 +29,21 @@ func currentFile() string {
 	return strings.TrimRight(string(bytes), "\n")
 }
 
-func getHeader() []string {
-	keys := make([]string, 100)
-	return keys
+func getHeader(fileName string) ([]string, error) {
+	file, err := os.Open(fileName)
+	if err != nil {
+		log.Fatal(err)
+	}
+
+	reader := csv.NewReader(file)
+	record, err := reader.Read()
+	if err == io.EOF {
+		return make([]string, 1), err
+	}
+	if err != nil {
+		log.Fatal(err)
+	}
+	return record, nil
 }
 
 func appendToFile(string) {

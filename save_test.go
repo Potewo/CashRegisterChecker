@@ -3,11 +3,12 @@ package main
 import (
 	"io/ioutil"
 	"os"
+	"reflect"
 	"testing"
 )
 
 var (
-	teststring string = "hogefuga"
+	teststring   string = "hogefuga"
 	testfilename string = "currentFile"
 )
 
@@ -45,5 +46,28 @@ func TestCurrentFileSuccess(t *testing.T) {
 	if filename != teststring {
 		t.Logf("except: %#v | but: %#v", teststring, filename)
 		t.Fatalf("failed to test: not same")
+	}
+}
+
+func TestGetHeaderTest(t *testing.T) {
+	testFileName := "test.csv"
+	exceptValue := []string{"a", "b", "c"}
+	file, err := os.Create(testFileName)
+	defer func() {
+		if err := os.Remove(testFileName); err != nil {
+			t.Log("failed to remove test file")
+			t.Fatal(err)
+		}
+	}()
+	if err != nil {
+		t.Log("failed to create new file for test")
+		t.Fatal(err)
+	}
+	defer file.Close()
+	file.WriteString("a,b,c\n1,3,4")
+	headerNames, err := getHeader(testFileName)
+	t.Logf("header: %#v", headerNames)
+	if !reflect.DeepEqual(headerNames, exceptValue) {
+		t.Fatalf("not same except: %#v but: %#v", exceptValue, headerNames)
 	}
 }
