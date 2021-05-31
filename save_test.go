@@ -1,11 +1,11 @@
 package main
 
 import (
+	"github.com/google/go-cmp/cmp"
 	"io/ioutil"
 	"os"
 	"reflect"
 	"testing"
-	"github.com/google/go-cmp/cmp"
 )
 
 var (
@@ -150,4 +150,45 @@ func TestConvertJsonToMap(t *testing.T) {
 		t.Logf(cmp.Diff(expectedValue, mapData))
 		t.Fatal("not same")
 	}
+}
+
+func TestConvertJsonToStruct(t *testing.T) {
+	jsonStrToPass := `{
+      "date": "1975-08-19T23:15:30.000Z",
+      "caches": [
+        {
+          "initialValue": 50,
+          "unitCost": 1,
+          "name": "1yen",
+          "value": 0
+        }, {
+          "initialValue": 50,
+          "unitCost": 5,
+          "name": "5yen",
+          "value": 0
+        }, {
+          "initialValue": 50,
+          "unitCost": 10,
+          "name": "10yen",
+          "value": 0
+        }
+      ],
+      "sales": 0,
+      "otherServices": [{
+        "unitCost": 500,
+        "n": 0,
+        "isPositive": true,
+        "name": "Rabies"
+      }],
+      "unpaids": [0],
+      "ins": [0],
+      "outs": [0],
+      "others": [0]
+}`
+	s, err := convertJsonToStruct(jsonStrToPass)
+	if err != nil {
+		t.Logf("failed to convert")
+		t.Fatal(err)
+	}
+	t.Logf("%#v", s)
 }

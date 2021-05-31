@@ -9,15 +9,57 @@ import (
 	"log"
 	"os"
 	"reflect"
+	// "sort"
 	"strings"
+	"time"
 )
 
+type SaveData struct {
+	Date   time.Time `json:"date"`
+	Caches []struct {
+		Initialvalue int    `json:"initialValue"`
+		Unitcost     int    `json:"unitCost"`
+		Name         string `json:"name"`
+		Value        int    `json:"value"`
+	} `json:"caches"`
+	Sales         int `json:"sales"`
+	Otherservices []struct {
+		Unitcost   int    `json:"unitCost"`
+		N          int    `json:"n"`
+		Ispositive bool   `json:"isPositive"`
+		Name       string `json:"name"`
+	} `json:"otherServices"`
+	Unpaid []int `json:"unpaid"`
+	Ins    []int `json:"ins"`
+	Outs   []int `json:"outs"`
+	Others []int `json:"others"`
+}
+
 // func save(jsonStr string) error {
+// 	fileName, err := currentFile()
+// 	if err != nil {
+// 		return err
+// 	}
 // 	jsonMap, err := convertJsonToMap(jsonStr)
 // 	if err != nil {
 // 		return err
 // 	}
-// 	headerOk, err := checkHeader()
+// 	headers := make([]string, len(jsonMap))
+// 	i := 0
+// 	for key := range jsonMap {
+// 		headers[i] = key
+// 		i++
+// 	}
+// 	sort.Strings(headers)
+// 	headerOk, err := checkHeader(fileName, headers)
+// 	fileToWrite := fileName
+// 	if headerOk {
+// 	} else {
+// 		// Create a new file
+// 		// fileToWrite = ""
+// 	}
+// 	// Append to fileToWrite
+// 	return nil
 // }
 
 func currentFile() (string, error) {
@@ -73,4 +115,12 @@ func convertJsonToMap(jsonStr string) (map[string]interface{}, error) {
 		return mapData, err
 	}
 	return mapData, nil
+}
+
+func convertJsonToStruct(jsonStr string) (SaveData, error) {
+	var d SaveData
+	if err := json.Unmarshal([]byte(jsonStr), &d); err != nil {
+		return d, err
+	}
+	return d, nil
 }
