@@ -12,15 +12,20 @@ import (
 	"strings"
 )
 
-func save() {
-}
+// func save(jsonStr string) error {
+// 	jsonMap, err := convertJsonToMap(jsonStr)
+// 	if err != nil {
+// 		return err
+// 	}
+// 	headerOk, err := checkHeader()
+// }
 
-func currentFile() string {
+func currentFile() (string, error) {
 	bytes, err := ioutil.ReadFile("currentFile")
 	if err != nil {
-		log.Fatal(err)
+		return "", err
 	}
-	return strings.TrimRight(string(bytes), "\n")
+	return strings.TrimRight(string(bytes), "\n"), nil
 }
 
 func getHeader(fileName string) ([]string, error) {

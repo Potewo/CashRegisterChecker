@@ -43,7 +43,11 @@ func TestCurrentFileSuccess(t *testing.T) {
 	if err != nil {
 		t.Fatalf("failed to Writing file")
 	}
-	filename := currentFile()
+	filename, err := currentFile()
+	if err != nil {
+		t.Logf("failed to get currentFile")
+		t.Fatal(err)
+	}
 	if filename != teststring {
 		t.Logf("except: %#v | but: %#v", teststring, filename)
 		t.Fatalf("failed to test: not same")
