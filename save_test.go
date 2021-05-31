@@ -5,6 +5,7 @@ import (
 	"os"
 	"reflect"
 	"testing"
+	"github.com/google/go-cmp/cmp"
 )
 
 var (
@@ -126,5 +127,23 @@ func TestCheckHeader(t *testing.T) {
 	err = os.Remove("test.txt")
 	if err != nil {
 		t.Fatal(err)
+	}
+}
+
+func TestConvertJsonToMap(t *testing.T) {
+	jsonStr := `{"a":1, "b":2, "c":5}`
+	expectedValue := map[string]interface{}{
+		"a": float64(1),
+		"b": float64(2),
+		"c": float64(5),
+	}
+	mapData, err := convertJsonToMap(jsonStr)
+	if err != nil {
+		t.Logf("failed to converting json to a map")
+		t.Fatal(err)
+	}
+	if !reflect.DeepEqual(mapData, expectedValue) {
+		t.Logf(cmp.Diff(expectedValue, mapData))
+		t.Fatal("not same")
 	}
 }
